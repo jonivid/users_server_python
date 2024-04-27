@@ -6,16 +6,16 @@ from flask_jwt_extended import create_access_token
 
 def get_all_users():
     users=User.query.all()
-    user_list=[{"id":user.id, "username":user.username,"role":user.role} for user in users]
+    user_list=[{"id":user.id, "username":user.username, "role":user.role, "isActive":user.is_active,"email":user.email} for user in users]
     return jsonify(user_list),200
 
 def get_user_by_id(user_id):
     user = User.query.get(user_id)
     if not user:
         return None
-    return {'id': user.id, 'username': user.username, "role": user.role}
+    return {'id': user.id, 'username': user.username, "role": user.role, "isActive":user.is_active,"email":user.email}
 
-def create_user(username, password):
+def create_user(username, password, email):
     try:
         # Check if the user already exists
         if User.query.filter_by(username=username).first() is not None:
@@ -24,6 +24,7 @@ def create_user(username, password):
         # Create a new user instance
         new_user = User(username=username)
         new_user.set_password(password)  # Hash the password and store
+        new_user.email=email
 
         # Add the new user to the session and commit it to the database
         db.session.add(new_user)

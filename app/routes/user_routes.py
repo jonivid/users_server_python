@@ -22,11 +22,12 @@ def get_users_route(user_id):
 
     return jsonify(user_data), 200
     
-@bp.route('/register', methods=['POST'])
+@bp.route('/create_user', methods=['POST'])
 def create_user_route():    
     data = request.json
     username = data.get('username')
     password = data.get('password')
+    email = data.get('email')
     
     if not username or not password:
         return jsonify({'message': 'Username and password are required'}), 400
@@ -34,7 +35,7 @@ def create_user_route():
     # Ensure password is a string
     password = str(password)
 
-    response, status_code = create_user(username, password)
+    response, status_code = create_user(username, password, email)
     return jsonify(response), status_code
 
 @bp.route('/login', methods=['POST'])

@@ -19,10 +19,8 @@ migrate = Migrate(app, db)
 
 # Import and register routes after initializing extensions
 from app.routes import user_routes
-# from app.routes import note_routes  # Uncomment when needed
 
 app.register_blueprint(user_routes.bp)
-# app.register_blueprint(note_routes.bp)  # Uncomment when needed
 
 # Create database tables
 with app.app_context():
